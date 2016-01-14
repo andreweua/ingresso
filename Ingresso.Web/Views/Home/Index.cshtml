@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Ingresso.Data.Classes.Item>
+@{
+    ViewBag.Title = "Início";
+}
+<h1>Escolha o seu Filme</h1>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3">
+            <a href="~/Ticket/New?id=@item.Id"><img src="~/@item.Image" alt="@item.Name" style="height: 350px; width: 262px"></a><br />
+            @item.Name
+        </div>
+    }
+</div>
