@@ -18,11 +18,17 @@ namespace Ingresso.Web.Controllers
             _itemRepository = itemRepository;
         }
 
+        //
+        // GET: /Index
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(_itemRepository.GetAllItems());
         }
 
+        //
+        // GET: /About
+        [AllowAnonymous]
         public ActionResult About()
         {
             ViewBag.Message = "Esta aplicação tem o objetivo de demonstrar um pouco do meu conhecimento em desenvolvimento web e boas práticas de desenvolvimento de aplicações.";
@@ -30,6 +36,9 @@ namespace Ingresso.Web.Controllers
             return View();
         }
 
+        //
+        // GET: /Contact
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             return View();

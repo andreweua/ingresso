@@ -6,9 +6,9 @@ using System.Web.Http;
 
 namespace Ingresso.API.Controllers
 {
-    public class SellController : ApiController
+    public class OrderController : ApiController
     {
-        // POST: /Sell
+        // POST: /Order
         public HttpResponseMessage Post([FromBody]ItemSoldViewModel value)
         {
             var queue_name = @".\private$\sell";

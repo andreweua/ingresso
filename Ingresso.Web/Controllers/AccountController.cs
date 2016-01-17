@@ -10,7 +10,6 @@ using Ingresso.Classes;
 
 namespace Ingresso.Web.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         #region Privados

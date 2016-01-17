@@ -10,7 +10,6 @@ using System.Web.Mvc;
 
 namespace Ingresso.Web.Controllers
 {
-    [Authorize]
     public class TicketController : Controller
     {
         #region Privados
@@ -97,7 +96,6 @@ namespace Ingresso.Web.Controllers
 
         //
         // GET: /Ticket/NewConfirmation
-        [AllowAnonymous]
         public ActionResult NewConfirmation()
         {
             return View();

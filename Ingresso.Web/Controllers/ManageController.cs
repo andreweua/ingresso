@@ -5,7 +5,6 @@ using System.Web.Mvc;
 
 namespace Ingresso.Web.Controllers
 {
-    [Authorize]
     public class ManageController : Controller
     {
         #region Privados

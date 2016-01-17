@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using SendGrid;
 using System.Configuration;
 using System.Net;
 using System.Net.Configuration;
@@ -11,48 +12,45 @@ namespace Ingresso.Identity.Classes
     {
         private const string _applicationName = "Ingresso";
 
-        public Task SendAsync(IdentityMessage message)
+        private async Task SendGridAsync(IdentityMessage message)
         {
-            Task ret;
-
             var sec = (ConfigurationManager.GetSection("system.net/mailSettings/smtp") as SmtpSection);
 
             if (sec != null)
             {
-                var servidor = sec.Network.Host;
-                var porta = sec.Network.Port;
-                var from = sec.From;
-                var usuario = sec.Network.UserName;
-                var senha = sec.Network.Password;
+                var displayName = sec.From;
+                var fromEmailAddress = sec.Network.UserName;
+                var passwordEmail = sec.Network.Password;
 
-                var credenciais = new NetworkCredential(usuario, senha);
-
-                var client = new SmtpClient(servidor)
+                var sendMessage = new SendGridMessage()
                 {
-                    Port = porta,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    EnableSsl = true,
-                    Credentials = credenciais
-                };
-
-                var mail = new MailMessage()
-                {
-                    From = new MailAddress(from, _applicationName),
+                    From = new MailAddress(fromEmailAddress, displayName),
                     Subject = message.Subject,
-                    IsBodyHtml = true,
-                    Body = message.Body
+                    Text = message.Body,
+                    Html = message.Body
                 };
-                mail.To.Add(message.Destination);
+                sendMessage.AddTo(message.Destination);
 
-                ret = client.SendMailAsync(mail);
+                var credentials = new NetworkCredential(fromEmailAddress, passwordEmail);
+                var transportWeb = new Web(credentials);
+                if (transportWeb != null)
+                {
+                    await transportWeb.DeliverAsync(sendMessage);
+                }
+                else
+                {
+                    await Task.FromResult(0);
+                }
             }
             else
             {
-                ret = Task.FromResult(0);
+                await Task.FromResult(0);
             }
+        }
 
-            return ret;
+        public async Task SendAsync(IdentityMessage message)
+        {
+            await this.SendGridAsync(message);
         }
     }
 }
