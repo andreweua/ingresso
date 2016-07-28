@@ -11,6 +11,11 @@ namespace Ingresso.Web.Controllers
 
         #endregion
 
+        protected override void HandleUnknownAction(string actionName)
+        {
+            this.Index().ExecuteResult(this.ControllerContext);
+        }
+
         #region Públicos
 
         public HomeController(IItemRepository itemRepository)
@@ -23,7 +28,7 @@ namespace Ingresso.Web.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View(_itemRepository.GetAllItems());
+            return View("Index", _itemRepository.GetAllItems());
         }
 
         //

@@ -7,7 +7,10 @@
     @foreach (var item in Model)
     {
         <div class="col-md-3">
-            <a href="~/Ticket/New?id=@item.Id"><img src="~/@item.Image" alt="@item.Name" style="height: 350px; width: 262px"></a><br />
+            <a href="@Url.Action("New", "Ticket", new { id = item.Id })">
+                <img src="@Url.Content("~/"+item.Image)" alt="@item.Name" style="height: 350px; width: 262px" />
+            </a>
+            <br />
             @item.Name
         </div>
     }
